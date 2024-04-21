@@ -22,8 +22,8 @@
 #time.sleep(3)
 #mixer.music.stop()
 
-import urllib.request
-urllib.request.urlretrieve('https://argosopentech.nyc3.digitaloceanspaces.com/argospm/translate-es_en-1_0.argosmodel', 'translate-ru_en-1_0.argosmodel')
+#import urllib.request
+#urllib.request.urlretrieve('https://argosopentech.nyc3.digitaloceanspaces.com/argospm/translate-es_en-1_0.argosmodel', 'translate-ru_en-1_0.argosmodel')
 
-from argostranslate import package
-package.install_from_path('translate-es_en-1_0.argosmodel')
+#from argostranslate import package
+#package.install_from_path('translate-es_en-1_0.argosmodel')

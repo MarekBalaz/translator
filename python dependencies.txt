@@ -1,0 +1,15 @@
+PYTHON DEPENDENCIES FOR TRANSLATOR
+- espeak
+- vos
+- pyttsx3
+- wget "vosk-model-small-en-us-0.15"
+- pydub
+- pyaudio
+
+
+cd ~
+sudo pip3 install --upgrade adafruit-python-shell
+wget https://raw.githubusercontent.com/adafruit/Raspberry-Pi-Installer-Scripts/master/i2smic.py
+sudo python3 i2smic.py
+
+dtoverlay=hifiberry-dac
