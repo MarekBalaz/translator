@@ -31,7 +31,7 @@ GPIO.output(24, GPIO.HIGH)
 GPIO.wait_for_edge(17, GPIO.RISING)
 isStarted = GPIO.input(17)
 if isStarted == True:
-    model = Model(r"/home/marek/Desktop/vosk-model-small-en-us-0.15")
+    model = Model(r"/home/marek/vosk-model-small-en-us-0.15")
     recognizer = KaldiRecognizer(model, 48000)    
 
     from_code = "en"

@@ -34,5 +34,3 @@ wget "vosk-model-small-en-us-0.15"
 unzip "vosk-model-small-en-us-0.15"
 
 https://alphacephei.com/vosk/models/vosk-model-small-en-us-0.15.zip
-
-pip install argostranslate

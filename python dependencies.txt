@@ -5,6 +5,7 @@ PYTHON DEPENDENCIES FOR TRANSLATOR
 - wget "vosk-model-small-en-us-0.15"
 - pydub
 - pyaudio
+- argostranslate
 
 
 cd ~
