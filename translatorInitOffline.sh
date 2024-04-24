@@ -1,36 +1,57 @@
 #! /bin/bash
-echo 'Updating packages'
-sudo apt update
-echo 'Packages updated successfully'
-echo ''
-echo 'Upgrading packages'
+sudo apt update -y
+
 sudo apt upgrade -y
-echo 'Packages upgraded successfully'
-echo ''
-echo 'Installing pip'
-sudo apt install pip
-echo 'pip installed successfully'
-echo ''
-echo 'Installing espeak'
-pip install python-espeak -----------------------------> INSTALL
-echo 'espeak installed successfully'
-echo ''
-echo 'Installing vos'
+
+sudo apt install python -y
+
+sudo apt install pip -y
+
+sudo apt install git -y
+
+sudo apt install espeak -y
+
 pip install vos
-echo 'vos installed successfully'
-echo ''
-echo 'Installing pyttsx3'
+
 pip install pyttsx3
-echo 'pyttsx3 installed successfully'
-echo ''
-echo 'Installing pydub'
+
 pip install pydub
-echo 'pydub installed successfully'
-echo ''
-echo 'Installing pyaudio'
+
 pip install pyaudio
-echo 'pyaudio installed successfully'
-wget "vosk-model-small-en-us-0.15"
+
+pip install torch
+
+pip install sentencepiece
+
+pip install git+https://github.com/huggingface/transformers
+
+pip install huggingface -----------------------------------------> check if this is necessary
+
+cd ~
+
+wget "https://alphacephei.com/vosk/models/vosk-model-small-en-us-0.15.zip"
 unzip "vosk-model-small-en-us-0.15"
 
-https://alphacephei.com/vosk/models/vosk-model-small-en-us-0.15.zip
+sudo apt install git-lfs -y
+
+git lfs install
+
+git clone https://huggingface.co/Helsinki-NLP/opus-mt-es-en
+
+cd opus-mt-es-en
+
+git lfs pull
+
+cd ~
+
+sudo pip3 install --upgrade adafruit-python-shell
+
+wget https://raw.githubusercontent.com/adafruit/Raspberry-Pi-Installer-Scripts/master/i2smic.py
+
+echo -e "y\ny" | sudo python3 i2smic.py
+
+echo "dtoverlay=hifiberry-dac" >> /boot/config.txt
+
+sudo apt update -y
+
+sudo shutdown -r now
