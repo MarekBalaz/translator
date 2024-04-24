@@ -16,21 +16,16 @@ GPIO.setup(17, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
 #Gpio pin for translator to start listening
 GPIO.setup(22, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
 #Gpio pin for Green LED
-GPIO.setup(23, GPIO.OUT)
+GPIO.setup(23, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
 #Gpio pin for Red LED
-GPIO.setup(24, GPIO.OUT)
+GPIO.setup(24, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
 
-def cleanup_callback():
-    GPIO.cleanup()
+while True:
 
-GPIO.add_event_detect(17, GPIO.FALLING, callback=cleanup_callback)
+    GPIO.output(24, GPIO.HIGH)
 
+    GPIO.wait_for_edge(17, GPIO.RISING)
 
-GPIO.output(24, GPIO.HIGH)
-
-GPIO.wait_for_edge(17, GPIO.RISING)
-isStarted = GPIO.input(17)
-if True:
     model = Model(r"/home/marek/vosk-model-small-en-us-0.15")
     recognizer = KaldiRecognizer(model, 48000)    
 
@@ -57,6 +52,10 @@ if True:
     GPIO.output(23, GPIO.HIGH)
     
     while True:
+        if GPIO.input(17) == GPIO.LOW:
+            GPIO.output(23, GPIO.LOW)
+            GPIO.output(24, GPIO.HIGH)
+            break
         GPIO.wait_for_edge(22, GPIO.RISING)
         stream = p.open(format=FORMAT,
                         channels=CHANNELS,
@@ -104,7 +103,7 @@ if True:
         print(result)
 
         print('translating')
-        result = 'world'
+
         translatedText = argostranslate.translate.translate(result, from_code, to_code)
 
         print(translatedText)
@@ -112,12 +111,6 @@ if True:
         engine = pyttsx3.init()
         engine.say(translatedText)
         engine.runAndWait()
-else:
-    for i in range(0, 5):
-        GPIO.output(24, GPIO.LOW)
-        time.sleep(0.7)
-        GPIO.output(24, GPIO.HIGH)
-    GPIO.cleanup()
 
 
     
