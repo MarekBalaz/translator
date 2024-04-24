@@ -1,14 +1,9 @@
 import pyttsx3
-import sys
-import json
-import os
 from vosk import Model, KaldiRecognizer
 import pyaudio
 import wave
 import RPi.GPIO as GPIO
-import time
-import argostranslate.package
-import argostranslate.translate
+from transformers import MarianMTModel, MarianTokenizer
 
 GPIO.setmode(GPIO.BCM)
 #Gpio pin for switch to turn off and on program
@@ -26,19 +21,16 @@ while True:
 
     GPIO.wait_for_edge(17, GPIO.RISING)
 
-    model = Model(r"/home/marek/vosk-model-small-en-us-0.15")
+    stt_model_path = r"/home/marek/vosk-model-small-en-us-0.15"
+    model = Model(stt_model_path)
     recognizer = KaldiRecognizer(model, 48000)    
 
     from_code = "en"
     to_code = "es"
-    argostranslate.package.update_package_index()
-    available_packages = argostranslate.package.get_available_packages()
-    package_to_install = next(
-        filter(
-            lambda x: x.from_code == from_code and x.to_code == to_code, available_packages
-        )
-    )
-    argostranslate.package.install_from_path(package_to_install.download())
+
+    translator_model_path = r"/home/marek/opus-mt-en-es"
+    tokenizer = MarianTokenizer.from_pretrained(translator_model_path)
+    model = MarianMTModel.from_pretrained(translator_model_path)
 
     CHUNK = 1024
     FORMAT = pyaudio.paInt16
@@ -104,12 +96,16 @@ while True:
 
         print('translating')
 
-        translatedText = argostranslate.translate.translate(result, from_code, to_code)
+        input_ids = tokenizer.encode(result, return_tensors="pt")
 
-        print(translatedText)
+        translated_ids = model.generate(input_ids)
+
+        translated_text = tokenizer.decode(translated_ids[0], skip_special_tokens=True)
+
+        print(translated_text)
         print('running speech')
         engine = pyttsx3.init()
-        engine.say(translatedText)
+        engine.say(translated_text)
         engine.runAndWait()
 
 
